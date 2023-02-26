@@ -17,9 +17,20 @@ export class ProdutoService {
   }
 
   async listProdutos() {
-    const produtosSalvos = await this.produtoRepository.find();
+    const produtosSalvos = await this.produtoRepository.find({
+      relations: {
+        imagens: true,
+        caracteristicas: true,
+      },
+    });
     const produtosLista = produtosSalvos.map(
-      (produto) => new ListaProdutoDTO(produto.id, produto.nome),
+      (produto) =>
+        new ListaProdutoDTO(
+          produto.id,
+          produto.nome,
+          produto.caracteristicas,
+          produto.imagens,
+        ),
     );
     return produtosLista;
   }
