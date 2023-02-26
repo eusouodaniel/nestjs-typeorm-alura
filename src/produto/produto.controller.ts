@@ -13,10 +13,14 @@ import { AtualizaProdutoDTO } from './dto/atualizaProduto.dto';
 import { CriaProdutoDTO } from './dto/CriaProduto.dto';
 import { ProdutoEntity } from './produto.entity';
 import { ProdutoRepository } from './produto.repository';
+import { ProdutoService } from './produto.service';
 
 @Controller('produtos')
 export class ProdutoController {
-  constructor(private readonly produtoRepository: ProdutoRepository) {}
+  constructor(
+    private readonly produtoRepository: ProdutoRepository,
+    private readonly produtoService: ProdutoService,
+  ) {}
 
   @Post()
   async criaNovo(@Body() dadosProduto: CriaProdutoDTO) {
@@ -32,7 +36,7 @@ export class ProdutoController {
     // produto.caracteristicas = dadosProduto.caracteristicas;
     // produto.imagens = dadosProduto.imagens;
 
-    const produtoCadastrado = this.produtoRepository.salva(produto);
+    const produtoCadastrado = this.produtoService.criaProduto(produto);
     return produtoCadastrado;
   }
 
